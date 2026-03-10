@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Find New Brands — Ankorstore Product Case</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #1A1A1A;
+    --white: #FAFAF7;
+    --yellow: #F5E642;
+    --blue: #2D00F7;
+    --beige: #F0EBE0;
+    --mid: #6B6B6B;
+    --border: #E0DDD6;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--white);
+    color: var(--black);
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 0 48px;
+    height: 52px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800; font-size: 15px; letter-spacing: -0.02em;
+    color: var(--black); text-decoration: none;
+  }
+  .nav-links {
+    display: flex; gap: 4px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px; font-weight: 500;
+    color: var(--mid); text-decoration: none;
+    padding: 6px 12px; border-radius: 20px;
+    transition: all 0.2s;
+    letter-spacing: 0.01em;
+  }
+  .nav-links a:hover { background: var(--beige); color: var(--black); }
+  .nav-pill {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px; font-weight: 500;
+    background: var(--black); color: var(--white);
+    padding: 6px 14px; border-radius: 20px;
+    letter-spacing: 0.03em; text-transform: uppercase;
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    min-height: 100vh;
+    padding: 120px 48px 80px;
+    border-bottom: 1px solid var(--border);
+    display: flex; flex-direction: column; justify-content: center;
+    max-width: 1200px; margin: 0 auto;
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  section.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── SLIDE LABEL ── */
+  .slide-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--mid); margin-bottom: 40px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .slide-label::before {
+    content: ''; display: block;
+    width: 24px; height: 1px; background: var(--mid);
+  }
+
+  /* ── HERO ── */
+  #s1 { background: var(--black); color: var(--white); max-width: 100%; padding: 0; }
+  .hero-inner {
+    max-width: 1200px; margin: 0 auto;
+    padding: 120px 48px 80px;
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .hero-tag {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase; color: rgba(255,255,255,0.4);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .hero-tag::before { content: ''; display: block; width: 24px; height: 1px; background: rgba(255,255,255,0.3); }
+  .hero-title {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: clamp(56px, 8vw, 96px);
+    font-weight: 800; line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-top: 40px;
+  }
+  .hero-title em {
+    font-style: normal;
+    color: var(--yellow);
+    display: block;
+  }
+  .hero-sub {
+    font-size: 14px; font-weight: 300;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.02em;
+  }
+  .hero-bottom {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    gap: 40px; flex-wrap: wrap;
+  }
+  .hero-tagline {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 18px; font-weight: 600;
+    color: rgba(255,255,255,0.7); max-width: 400px;
+    font-style: italic;
+  }
+  .hero-meta {
+    display: flex; gap: 32px;
+  }
+  .hero-stat { text-align: right; }
+  .hero-stat-n {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 28px; font-weight: 800;
+    color: var(--yellow); display: block;
+  }
+  .hero-stat-l { font-size: 11px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.08em; }
+
+  /* ── HEADINGS ── */
+  h2 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 800; line-height: 1.0;
+    letter-spacing: -0.025em; margin-bottom: 8px;
+  }
+  h2 .accent { color: var(--blue); }
+  .section-intro {
+    font-size: 16px; font-weight: 300; color: var(--mid);
+    max-width: 560px; margin-bottom: 56px; font-style: italic;
+    border-left: 2px solid var(--yellow); padding-left: 16px;
+  }
+
+  /* ── GRID LAYOUTS ── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--beige);
+    padding: 32px;
+    position: relative;
+  }
+  .card-label {
+    font-size: 10px; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--mid); margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .card-title {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 18px; font-weight: 700;
+    letter-spacing: -0.02em; margin-bottom: 12px;
+  }
+  .card-body { font-size: 14px; line-height: 1.65; color: #3A3A3A; font-weight: 300; }
+
+  .card-dark { background: var(--black); color: var(--white); }
+  .card-dark .card-body { color: rgba(255,255,255,0.6); }
+  .card-dark .card-label { color: rgba(255,255,255,0.3); }
+
+  .card-blue { background: var(--blue); color: var(--white); }
+  .card-blue .card-body { color: rgba(255,255,255,0.8); }
+  .card-blue .card-label { color: rgba(255,255,255,0.5); }
+
+  .card-yellow { background: var(--yellow); color: var(--black); }
+  .card-yellow .card-label { color: rgba(0,0,0,0.5); }
+
+  /* ── TAG ── */
+  .tag {
+    display: inline-flex; align-items: center;
+    font-size: 10px; font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase; padding: 4px 10px;
+    border-radius: 20px; margin-bottom: 12px;
+  }
+  .tag-yellow { background: var(--yellow); color: var(--black); }
+  .tag-blue { background: var(--blue); color: var(--white); }
+  .tag-dark { background: var(--black); color: var(--white); }
+
+  /* ── ASSUMPTION / HYPOTHESIS BLOCKS ── */
+  .obs-block { margin-top: 12px; }
+  .obs-row {
+    display: flex; gap: 10px; align-items: flex-start;
+    margin-bottom: 8px; font-size: 13px; line-height: 1.55; font-weight: 300;
+  }
+  .obs-row .obs-type {
+    font-size: 9px; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; padding: 3px 8px; border-radius: 3px;
+    flex-shrink: 0; margin-top: 2px;
+  }
+  .obs-observed { background: var(--yellow); color: var(--black); }
+  .obs-assumed { background: var(--beige); color: var(--mid); border: 1px solid var(--border); }
+  .obs-hypo { background: var(--blue); color: var(--white); }
+
+  /* ── METRIC FORMULA ── */
+  .metric-box {
+    background: var(--black); color: var(--white);
+    padding: 28px 32px; margin: 32px 0;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .metric-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+  .metric-name {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 20px; font-weight: 700; color: var(--yellow);
+  }
+  .metric-formula {
+    display: flex; flex-direction: column; gap: 2px;
+    font-size: 13px; color: rgba(255,255,255,0.7); font-weight: 300;
+  }
+  .metric-num { padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.2); }
+  .metric-den { padding-top: 8px; }
+
+  /* ── SCOPE ROW ── */
+  .scope-row {
+    display: flex; gap: 2px; margin: 32px 0;
+  }
+  .scope-chip {
+    flex: 1; padding: 20px 24px;
+    background: var(--beige);
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 15px; font-weight: 700;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .scope-chip .sc-num {
+    font-size: 11px; font-weight: 400; color: var(--mid);
+  }
+
+  /* ── APPROACH STEPS ── */
+  .steps { display: flex; flex-direction: column; gap: 2px; margin-top: 32px; }
+  .step {
+    display: flex; gap: 0; align-items: stretch;
+  }
+  .step-num {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 48px; font-weight: 800;
+    color: var(--yellow); background: var(--black);
+    padding: 24px 28px; line-height: 1;
+    flex-shrink: 0; display: flex; align-items: center;
+    width: 88px; justify-content: center;
+  }
+  .step-content {
+    flex: 1; padding: 24px 28px;
+    background: var(--beige);
+  }
+  .step-title {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 16px; font-weight: 700;
+    margin-bottom: 8px; letter-spacing: -0.01em;
+  }
+  .step-body { font-size: 13px; color: #4A4A4A; font-weight: 300; line-height: 1.65; }
+  .step-body strong { font-weight: 500; color: var(--black); }
+
+  /* ── FUNNEL ── */
+  .funnel {
+    display: flex; align-items: center; gap: 0;
+    margin: 20px 0; flex-wrap: wrap;
+  }
+  .funnel-step {
+    background: var(--black); color: var(--white);
+    padding: 10px 20px; font-size: 12px; font-weight: 500;
+    position: relative;
+  }
+  .funnel-step::after {
+    content: '→'; position: absolute; right: -18px; top: 50%;
+    transform: translateY(-50%); color: var(--mid); font-size: 14px;
+    z-index: 1;
+  }
+  .funnel-step:last-child::after { display: none; }
+  .funnel { gap: 24px; }
+
+  /* ── PROBLEMS ── */
+  .problem-card {
+    padding: 36px; border: 1px solid var(--border);
+    position: relative; overflow: hidden;
+  }
+  .problem-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .p1::before { background: var(--mid); }
+  .p2::before { background: var(--yellow); }
+  .p3::before { background: var(--border); }
+  .p-num {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 64px; font-weight: 800;
+    color: var(--border); position: absolute;
+    top: 16px; right: 24px; line-height: 1;
+  }
+  .p-title {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 17px; font-weight: 700;
+    letter-spacing: -0.02em; margin-bottom: 20px;
+    max-width: 85%;
+  }
+
+  /* ── TABLE ── */
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead tr { background: var(--black); color: var(--white); }
+  thead th { padding: 14px 20px; text-align: left; font-weight: 500; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; }
+  tbody tr { border-bottom: 1px solid var(--border); }
+  tbody tr:nth-child(even) { background: var(--beige); }
+  tbody td { padding: 14px 20px; font-weight: 300; vertical-align: top; }
+  tbody td:first-child { font-weight: 500; }
+  .td-signal { font-size: 11px; color: var(--mid); }
+
+  /* ── DEEP DIVE ── */
+  .deep-row {
+    display: grid; grid-template-columns: 1fr 2fr; gap: 2px; margin-top: 32px;
+  }
+  .deep-left {
+    background: var(--black); color: var(--white);
+    padding: 36px;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .deep-title {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 28px; font-weight: 800;
+    line-height: 1.1; letter-spacing: -0.02em;
+  }
+  .deep-right {
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .insight-box {
+    background: var(--yellow);
+    padding: 28px 32px;
+  }
+  .insight-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; color: rgba(0,0,0,0.5); }
+  .insight-text {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 16px; font-weight: 700;
+    line-height: 1.3; letter-spacing: -0.01em;
+  }
+
+  /* ── KPI TABLE ── */
+  .kpi-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px;
+    margin-top: 32px;
+  }
+  .kpi-card {
+    padding: 28px 24px;
+  }
+  .kpi-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); margin-bottom: 10px; }
+  .kpi-name { font-family: 'Bricolage Grotesque', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 8px; line-height: 1.3; }
+  .kpi-role { font-size: 12px; font-weight: 300; color: #5A5A5A; }
+
+  /* ── QUICK WIN ── */
+  .steps-h { display: flex; gap: 2px; margin-top: 24px; }
+  .qstep {
+    flex: 1; padding: 24px; background: var(--beige);
+    position: relative;
+  }
+  .qstep-n {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 36px; font-weight: 800; color: var(--border);
+    margin-bottom: 12px;
+  }
+  .qstep-title { font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+  .qstep-body { font-size: 12px; font-weight: 300; color: var(--mid); line-height: 1.55; }
+
+  /* ── BILATERAL ── */
+  .bilateral {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 24px;
+  }
+  .bilateral-card { padding: 32px; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--black); color: var(--white);
+    padding: 40px 48px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-brand {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 13px; font-weight: 700; letter-spacing: -0.01em;
+  }
+  .footer-note { font-size: 12px; color: rgba(255,255,255,0.3); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-inner > * {
+    animation: fadeSlideUp 0.7s ease forwards;
+    opacity: 0;
+  }
+  .hero-inner > *:nth-child(1) { animation-delay: 0.1s; }
+  .hero-inner > *:nth-child(2) { animation-delay: 0.25s; }
+  .hero-inner > *:nth-child(3) { animation-delay: 0.4s; }
+  .hero-inner > *:nth-child(4) { animation-delay: 0.55s; }
+
+  /* ── DIVIDER ── */
+  .divider { height: 1px; background: var(--border); margin: 40px 0; }
+
+  /* ── INLINE HIGHLIGHT ── */
+  .hl { background: var(--yellow); padding: 0 4px; }
+  .hl-blue { background: var(--blue); color: var(--white); padding: 0 4px; }
+
+  /* ── NOT SOLVING LIST ── */
+  .not-list { display: flex; flex-direction: column; gap: 2px; }
+  .not-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 20px; background: var(--beige);
+    font-size: 13px; font-weight: 300; color: var(--mid);
+  }
+  .not-item::before {
+    content: '✕'; font-size: 10px; color: var(--border);
+    font-weight: 700; flex-shrink: 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">ankorstore × product case</a>
+  <ul class="nav-links">
+    <li><a href="#s1">Frame</a></li>
+    <li><a href="#s2">Approach</a></li>
+    <li><a href="#s3">Problems</a></li>
+    <li><a href="#s4">Deep Dive</a></li>
+  </ul>
+  <span class="nav-pill">Senior PM</span>
+</nav>
+
+<!-- ════════════════════════════════════════════ SLIDE 1 -->
+<div id="s1" style="background:var(--black); border-bottom: 1px solid #2A2A2A;">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-tag">01 — The Frame</div>
+    </div>
+    <div>
+      <h1 class="hero-title">Find<br><em>New Brands</em></h1>
+      <p class="hero-sub" style="margin-top:24px;">Product Case · Senior Product Manager · Ankorstore</p>
+    </div>
+    <div class="hero-bottom">
+      <p class="hero-tagline">"Finding new brands should be effortless."</p>
+      <div class="hero-meta">
+        <div class="hero-stat">
+          <span class="hero-stat-n">300K</span>
+          <span class="hero-stat-l">Retailers</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-n">25K</span>
+          <span class="hero-stat-l">Brands</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-n">3</span>
+          <span class="hero-stat-l">Surfaces</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 1 CONTENT -->
+<section id="s1b">
+  <div class="slide-label">01 — The Frame</div>
+
+  <!-- Scope chips -->
+  <h2>Scope <span class="accent">& Context</span></h2>
+  <p class="section-intro">Improve new brand discovery across 3 surfaces to drive demand-side liquidity.</p>
+
+  <div class="scope-row">
+    <div class="scope-chip"><span class="sc-num">①</span> Search</div>
+    <div class="scope-chip"><span class="sc-num">②</span> Inspiration Feed</div>
+    <div class="scope-chip"><span class="sc-num">③</span> Brand Page</div>
+  </div>
+
+  <!-- Metric -->
+  <div class="metric-box">
+    <div class="metric-label">North Star Metric</div>
+    <div class="metric-name">Retailer New Brand Adoption Rate</div>
+    <div class="metric-formula">
+      <div class="metric-num">Retailers who ordered from a new brand</div>
+      <div class="metric-den">Retailers with ≥ 1 order over a given period</div>
+    </div>
+  </div>
+
+  <!-- Assumptions + Out of scope -->
+  <div class="grid-2" style="gap:2px; margin-top:2px;">
+    <div class="card">
+      <div class="card-label">Assumptions</div>
+      <div class="obs-block">
+        <div class="obs-row">
+          <span class="obs-type obs-observed">Goal</span>
+          <span>Grow GMV through retailer retention and brand diversification</span>
+        </div>
+        <div class="obs-row">
+          <span class="obs-type obs-observed">Def.</span>
+          <span><strong>"New brand"</strong> — a brand the retailer has never ordered from before</span>
+        </div>
+        <div class="obs-row">
+          <span class="obs-type obs-assumed">Lens</span>
+          <span>Retailer experience is primary — brand impact is a structural constraint on every solution</span>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="background: var(--white); border: 1px solid var(--border);">
+      <div class="card-label">Not Solving</div>
+      <div class="not-list" style="margin-top:8px;">
+        <div class="not-item">New retailers onboarding</div>
+        <div class="not-item">New brands onboarding + catalogue quality</div>
+        <div class="not-item">Logistics or payment experience</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════ SLIDE 2 -->
+<section id="s2">
+  <div class="slide-label">02 — The Approach</div>
+  <h2>Before <span class="accent">any hypothesis</span></h2>
+  <p class="section-intro">Map what's visible and what's not — across all three surfaces.</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <div class="step-title">Build visibility on the discovery funnel</div>
+        <div class="step-body">
+          Map the full funnel across all three surfaces and find the blind spots.<br><br>
+          <div class="funnel">
+            <div class="funnel-step">Search</div>
+            <div class="funnel-step">Brand page</div>
+            <div class="funnel-step">Product page</div>
+            <div class="funnel-step">First order</div>
+          </div>
+          <div class="funnel" style="margin-top:8px;">
+            <div class="funnel-step">Inspiration feed</div>
+            <div class="funnel-step">Brand page</div>
+            <div class="funnel-step">Product page</div>
+            <div class="funnel-step">First order</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <div class="step-title">Triangulate across signals</div>
+        <div class="step-body">
+          <strong>Quantitative</strong> — where does each funnel drop? Share of voice of new brands in search &amp; feed?<br><br>
+          <strong>Qualitative</strong> — 5 retailer interviews: "Walk me through the last time you discovered a new brand you ordered from, and the last time you tried and gave up."<br><br>
+          <strong>Product observation</strong> — I explored the platform directly as a retailer. Three things stood out:
+          <div class="obs-block" style="margin-top:12px;">
+            <div class="obs-row">
+              <span class="obs-type obs-observed">Obs.</span>
+              <span>Search "Bougies naturelles" → top 30 results dominated by a single brand</span>
+            </div>
+            <div class="obs-row">
+              <span class="obs-type obs-observed">Obs.</span>
+              <span>Inspiration feed → editorial, activity-based and product-based recs. Brand recs clustered into pre-declared activity categories</span>
+            </div>
+            <div class="obs-row">
+              <span class="obs-type obs-assumed">Assumed</span>
+              <span>"New" tab attribute refers to product added date (catalogue-new, not retailer-new)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <div class="step-title">Lock a falsifiable hypothesis before building</div>
+        <div class="step-body">
+          After converging all signals, one explicit format only:<br><br>
+          <span style="font-family:'Syne',sans-serif; font-weight:700; font-size:15px; display:inline-block; background:var(--yellow); padding: 10px 16px; margin-top:4px;">
+            By doing X for segment Y → we expect Z within time T
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════ SLIDE 3 -->
+<section id="s3">
+  <div class="slide-label">03 — The Three Problems</div>
+  <h2>Where ordering from a <span class="accent">new brand breaks</span></h2>
+  <p class="section-intro">Three distinct moments of failure across the discovery journey.</p>
+
+  <div class="grid-3" style="gap:2px; margin-top:0;">
+
+    <!-- P1 -->
+    <div class="problem-card p1">
+      <div class="p-num">P1</div>
+      <div class="p-title">New brands are systematically buried during search</div>
+      <div class="obs-block">
+        <div class="obs-row">
+          <span class="obs-type obs-observed">Obs.</span>
+          <span>"Bougies naturelles" → 30 results, dominated by a single brand</span>
+        </div>
+        <div class="obs-row">
+          <span class="obs-type obs-assumed">Assumed</span>
+          <span>Established brands capture more search impressions than new brands</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- P2 -->
+    <div class="problem-card p2" style="background:var(--black); color:var(--white);">
+      <div class="p-num" style="color:#333;">P2</div>
+      <div style="display:flex; gap:8px; align-items:center; margin-bottom:16px;">
+        <div class="p-title" style="margin:0;">Retailers don't know what they don't know</div>
+        <span class="tag tag-yellow" style="flex-shrink:0;">★ Deep dive</span>
+      </div>
+      <div class="obs-block">
+        <div class="obs-row" style="color:rgba(255,255,255,0.8);">
+          <span class="obs-type obs-observed">Obs.</span>
+          <span>Inspiration feed surfaces activity-level and product-level personalised recs</span>
+        </div>
+        <div class="obs-row" style="color:rgba(255,255,255,0.8);">
+          <span class="obs-type obs-assumed">Assumed</span>
+          <span>Brand-level recommendation is missing. "New" attribute is catalogue-recency based</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- P3 -->
+    <div class="problem-card p3">
+      <div class="p-num">P3</div>
+      <div class="p-title">Retailers don't trust new brands enough to order</div>
+      <div style="font-size:12px; color:var(--mid); font-style:italic; margin-bottom:14px;">No direct observation — B2B structural assumption</div>
+      <div class="obs-block">
+        <div class="obs-row">
+          <span class="obs-type obs-assumed">Assumed</span>
+          <span>Brand page visit-to-order rate is lower for new brands than established ones</span>
+        </div>
+        <div class="obs-row">
+          <span class="obs-type" style="background:var(--border); color:var(--mid); border:1px solid var(--border);">Context</span>
+          <span>A retailer placing a minimum order without knowing if products will sell = real financial risk</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════ SLIDE 4 -->
+<section id="s4">
+  <div class="slide-label">04 — The Deep Dive</div>
+  <h2>Retailers don't know <span class="accent">what they don't know</span></h2>
+  <p class="section-intro">Brand-level discovery is missing from the inspiration surface.</p>
+
+  <!-- Discovery table -->
+  <table>
+    <thead>
+      <tr>
+        <th>Surface</th>
+        <th>Personalisation level</th>
+        <th>Signal used</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>"Our selections for you"</td>
+        <td>Activity-level</td>
+        <td class="td-signal">Declared activity, Seasonality</td>
+      </tr>
+      <tr>
+        <td>"You may like this brand"</td>
+        <td>Activity-level</td>
+        <td class="td-signal">Declared activity</td>
+      </tr>
+      <tr>
+        <td>"New" tab</td>
+        <td>Activity-level</td>
+        <td class="td-signal">Declared activity, Catalogue recency</td>
+      </tr>
+      <tr>
+        <td>"You may like these products"</td>
+        <td>Product-level</td>
+        <td class="td-signal">Likes, Orders, Follows</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Insight -->
+  <div class="insight-box" style="margin-top: 2px;">
+    <div class="insight-label">Core insight</div>
+    <div class="insight-text">Retailers within the same activity see the same new brands.<br>And the "new" brands are new to the catalogue — not new to <em>them</em>.</div>
+  </div>
+
+  <!-- Solution + hypothesis -->
+  <div class="grid-2" style="gap:2px; margin-top:2px;">
+    <div class="card card-dark">
+      <div class="card-label">Solution</div>
+      <div class="card-title" style="color:var(--yellow);">Brand-Retailer Taste Affinity</div>
+      <div class="card-body">
+        Build a taste vector per retailer from implicit and/or explicit signals. Rank new brands by matching brand attributes to that vector. Surface them as a within-activity personalised brand discovery.
+      </div>
+    </div>
+    <div class="card card-blue">
+      <div class="card-label">Hypothesis</div>
+      <div class="card-title" style="color:var(--yellow);">Taste profiles → adoption rate</div>
+      <div class="card-body">
+        By integrating retailer taste profiles into the inspiration feed at brand-level — for retailers within the same activity category — we expect to surface more relevant new brands per retailer, reducing the relevance gap and increasing <strong style="color:white;">retailer new brand adoption rate</strong>.
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick win -->
+  <div style="margin-top: 24px;">
+    <div class="card-label" style="margin-bottom:16px;">
+      <span class="tag tag-dark">Quick win</span>
+      Validate the core assumption before building the full model
+    </div>
+    <div class="steps-h">
+      <div class="qstep">
+        <div class="qstep-n">1</div>
+        <div class="qstep-title">Identify one cluster</div>
+        <div class="qstep-body">Retailer group within the same activity with a clear, distinct taste profile</div>
+      </div>
+      <div class="qstep">
+        <div class="qstep-n">2</div>
+        <div class="qstep-title">Split 50/50</div>
+        <div class="qstep-body">Random split within the same cluster — isolates a single variable</div>
+      </div>
+      <div class="qstep">
+        <div class="qstep-n">3</div>
+        <div class="qstep-title">Curate manually</div>
+        <div class="qstep-body">Treatment sees taste-matched brands. Control sees current activity-level recs</div>
+      </div>
+      <div class="qstep" style="background:var(--yellow);">
+        <div class="qstep-n" style="color:rgba(0,0,0,0.15);">4</div>
+        <div class="qstep-title">Measure over 4 weeks</div>
+        <div class="qstep-body" style="color:var(--black);">New brand engagement + adoption rate</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bilateral + KPIs -->
+  <div class="bilateral" style="margin-top:2px;">
+    <div class="bilateral-card" style="background:var(--beige);">
+      <div class="card-label">Bilateral impact for brands</div>
+      <div class="card-body">
+        Within each activity, exposure is ranked by <strong>taste-relevance</strong> rather than broad activity clustering. A shift from passive matching to active, tailored discovery — directly contributing to demand-supply liquidity, including for newly added brands.
+      </div>
+    </div>
+    <div class="bilateral-card" style="background:var(--white); border: 1px solid var(--border);">
+      <div class="card-label">Concrete KPIs</div>
+      <div class="kpi-grid" style="grid-template-columns: 1fr 1fr; gap:8px; margin-top:8px;">
+        <div style="padding: 14px; background:var(--black);">
+          <div class="kpi-label" style="color:rgba(255,255,255,0.4);">North star</div>
+          <div class="kpi-name" style="color:var(--yellow); font-size:12px;">Retailer new brand adoption rate</div>
+        </div>
+        <div style="padding: 14px; background:var(--beige);">
+          <div class="kpi-label">Activation</div>
+          <div class="kpi-name" style="font-size:12px;">New brand page visit rate · Time to first order</div>
+        </div>
+        <div style="padding: 14px; background:var(--beige);">
+          <div class="kpi-label">Guard rail</div>
+          <div class="kpi-name" style="font-size:12px;">Inspiration engagement rate</div>
+        </div>
+        <div style="padding: 14px; background:var(--beige);">
+          <div class="kpi-label">Guard rail</div>
+          <div class="kpi-name" style="font-size:12px;">Inspiration session conversion rate</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-brand">Find New Brands — Senior PM Case · Ankorstore</span>
+  <span class="footer-note">Chen Ming Coudamy · 2026</span>
+</footer>
+
+<script>
+  const sections = document.querySelectorAll('section');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.08 });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
